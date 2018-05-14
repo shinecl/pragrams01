@@ -229,6 +229,7 @@ def cart(request):
             return HttpResponseRedirect(reverse('axf:login'))
 
 
+# 判断order的每个商品是否is_select，即可判断是否为全选
 def is_allsel():
     all_sel = True
     carts = CartModel.objects.all()
@@ -280,6 +281,7 @@ def ordergoods(request):
             return HttpResponseRedirect(reverse('axf:user_orderinfo', args=(str(order.id),)))
 
 
+# 支付页面
 def user_orderinfo(request, order_id):
     if request.method == 'GET':
         order_goods = OrderModel.objects.filter(pk=order_id).first()
@@ -298,6 +300,7 @@ def change_order_status(request, order_id):
         return HttpResponseRedirect(reverse('axf:mine'))
 
 
+# 待支付
 def user_wait_pay(request):
     if request.method == 'GET':
         user = request.user
@@ -306,6 +309,7 @@ def user_wait_pay(request):
             return render(request, 'order/order_list_wait_pay.html', {'orders': orders})
 
 
+# 待收货
 def user_pay(request):
     if request.method == 'GET':
         user = request.user
@@ -313,7 +317,7 @@ def user_pay(request):
             orders = OrderModel.objects.filter(user=user, o_status=1)
             return render(request, 'order/order_list_payed.html', {'orders': orders})
 
-
+# 计算商品总价
 def sum():
     total = 0
     cart_goods = CartModel.objects.filter(is_select=True)
@@ -326,6 +330,7 @@ def sum():
     return total
 
 
+# 全选
 def allSelectChange(request):
     if request.method == 'POST':
         user = request.user
