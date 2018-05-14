@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <h3>待付款订单列表</h3>
+    <div style="height:4px;width:100%; border: 1px solid red"></div>
+
+    <ul>
+        <!--订单信息展示-->
+        {% for order in orders %}
+            <li>
+                <a href="{% url 'axf:user_orderinfo' order.id %}">
+                    <p><!-- 订单id -->订单编号：{{ order.id }}</p>
+                    {% for good in order.ordergoodsmodel_set.all %}
+                        <p><!-- 数量 -->商品数量：{{ good.goods_num }}</p>
+                        <!--展示商品的名称-->商品名称：{{ good.goods.productlongname }}
+                        <li>
+                            <img src="{{ good.goods.productimg }}" alt="">
+                        </li>
+                        <!--处理结束-->
+                        <div style="height:4px;width:100%; border: 1px solid red"></div>
+                    {% endfor %}
+            </a>
+            </li>
+            <!--订单处理结束-->
+        {% endfor %}
+
+    </ul>
+
+
+{% endblock %}
